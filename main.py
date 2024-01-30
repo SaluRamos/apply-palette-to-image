@@ -47,6 +47,15 @@ class PaletteConverter:
 
 if __name__ == "__main__":
     converter = PaletteConverter("palette-1.png")
+    if not os.path.exists("input/") or not os.path.exists("output/"):
+        try:
+            os.makedirs("input")
+        except:
+            pass
+        try:
+            os.makedirs("output")
+        except:
+            pass
     output_files = os.listdir("output")
     inputs_files = os.listdir("input")
     for file_path in inputs_files:

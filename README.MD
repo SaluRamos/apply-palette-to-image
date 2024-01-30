@@ -1,0 +1,1 @@
+Este projeto aplica as cores de uma paleta de cores a uma imagem qualquer

@@ -2,6 +2,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +73,16 @@ public class PaletteConverter {
 
     public static void main(String[] args) throws IOException {
         PaletteConverter converter = new PaletteConverter("palette-1.png");
+        Path inputPath = Paths.get("input/");
+        Path outputPath = Paths.get("output/");
+        if (!Files.exists(inputPath) || !Files.exists(outputPath)) {
+            try {
+                Files.createDirectories(inputPath);
+            } catch (IOException ignore) { }
+            try {
+                Files.createDirectories(outputPath);
+            } catch (IOException ignore) { }
+        }
         File outputFolder = new File("output");
         File[] outputFiles = outputFolder.listFiles();
         File inputFolder = new File("input");
