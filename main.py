@@ -46,7 +46,7 @@ class PaletteConverter:
         return nearest_color
 
 if __name__ == "__main__":
-    converter = PaletteConverter("palette-1.png")
+    converter = PaletteConverter("palettes/rem24-1x.png")
     if not os.path.exists("input/") or not os.path.exists("output/"):
         try:
             os.makedirs("input")

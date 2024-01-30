@@ -72,7 +72,7 @@ public class PaletteConverter {
     }
 
     public static void main(String[] args) throws IOException {
-        PaletteConverter converter = new PaletteConverter("palette-1.png");
+        PaletteConverter converter = new PaletteConverter("palettes/rem24-1x.png");
         Path inputPath = Paths.get("input/");
         Path outputPath = Paths.get("output/");
         if (!Files.exists(inputPath) || !Files.exists(outputPath)) {
