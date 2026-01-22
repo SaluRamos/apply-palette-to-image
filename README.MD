@@ -1,1 +1,7 @@
-Este projeto aplica as cores de uma paleta de cores a uma imagem qualquer
+### Apply paletto to Image
+
+Applies the colors from a color palette to any image
+
+### How to use
+
+will accept args soon
