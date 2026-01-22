@@ -40,7 +40,7 @@ public class PaletteConverter {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int rgb = image.getRGB(x, y);
-                int[] nearestRgb = getNearestColor(rgb);
+                int[] nearestRgb = getNearestColorInPalette(rgb);
                 resultImage.setRGB(x, y, (nearestRgb[0] << 16) | (nearestRgb[1] << 8) | nearestRgb[2]);
             }
         }
@@ -51,50 +51,50 @@ public class PaletteConverter {
         System.out.println("time to render: " + (finish - start) + " ms");
     }
 
-    private int[] getNearestColor(int rgb) {
+    private int[] getNearestColorInPalette(int rgb) {
         double minLength = Double.MAX_VALUE;
         int[] nearestColor = {0, 0, 0};
-
         for (int[] color : PALETTE_COLORS) {
             double length = Math.sqrt(
                     Math.pow((color[0] - ((rgb >> 16) & 0xFF)), 2) +
                     Math.pow((color[1] - ((rgb >> 8) & 0xFF)), 2) +
                     Math.pow((color[2] - (rgb & 0xFF)), 2)
             );
-
             if (length < minLength) {
                 minLength = length;
                 nearestColor = color;
             }
         }
-
         return nearestColor;
     }
 
     public static void main(String[] args) throws IOException {
-        PaletteConverter converter = new PaletteConverter("palettes/rem24-1x.png");
-        Path inputPath = Paths.get("input/");
-        Path outputPath = Paths.get("output/");
-        if (!Files.exists(inputPath) || !Files.exists(outputPath)) {
+        //carrega palette
+        String palettePath = args[0];
+        System.out.println("palettePath: " + palettePath);
+        PaletteConverter converter = new PaletteConverter(palettePath);
+        //cria os diretorios se não existirem
+        Path inputFolderPath = Paths.get("input/");
+        Path outputFolderPath = Paths.get("output/");
+        if (!Files.exists(inputFolderPath) || !Files.exists(outputFolderPath)) {
             try {
-                Files.createDirectories(inputPath);
+                Files.createDirectories(inputFolderPath);
             } catch (IOException ignore) { }
             try {
-                Files.createDirectories(outputPath);
+                Files.createDirectories(outputFolderPath);
             } catch (IOException ignore) { }
         }
+        
+        //converte todas as imagens de input se ela ainda não forem convertidas
+        File[] inputFiles = new File("input").listFiles();
         File outputFolder = new File("output");
-        File[] outputFiles = outputFolder.listFiles();
-        File inputFolder = new File("input");
-        File[] inputFiles = inputFolder.listFiles();
-
-        if (outputFiles != null) {
-            for (File file : inputFiles) {
-                String filePath = file.getName();
-                if (!new File(outputFolder, filePath).exists()) {
-                    converter.convertImageColorsToPaletteAndSave(filePath);
-                }
+        for (File file : inputFiles) {
+            String filePath = file.getName();
+            if (!new File(outputFolder, filePath).exists()) {
+                converter.convertImageColorsToPaletteAndSave(filePath);
             }
         }
     }
+    
+    
 }
