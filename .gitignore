@@ -1,4 +1,4 @@
-input/*
-output/*
-palettes/*
-PaletteConverter.class
+input/
+output/
+*.class
+exec.bat
